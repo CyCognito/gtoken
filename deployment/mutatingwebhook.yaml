@@ -6,6 +6,11 @@ metadata:
     app: gtoken-webhook
 webhooks:
   - name: gtoken.doit-intl.com
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values: [ "kube-system","default" ] # assume the webhook pods are in default ns
     sideEffects: None
     admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -19,5 +24,7 @@ webhooks:
         apiGroups: ["*"]
         apiVersions: ["*"]
         resources: ["pods"]
+        scope: "Namespaced"
+
 
 
